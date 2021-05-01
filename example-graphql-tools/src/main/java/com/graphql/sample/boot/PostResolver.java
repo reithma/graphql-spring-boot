@@ -8,8 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 class PostResolver implements GraphQLResolver<Post> {
 
@@ -19,7 +22,10 @@ class PostResolver implements GraphQLResolver<Post> {
     comments.put(1L, singletonList(new Comment(1L, "Some comment")));
   }
 
+  @SneakyThrows
   public List<Comment> getComments(Post post) {
+    Thread.sleep(1000);
+    log.info("Return comments");
     return Optional.ofNullable(comments.get(post.getId())).orElseGet(Collections::emptyList);
   }
 }
